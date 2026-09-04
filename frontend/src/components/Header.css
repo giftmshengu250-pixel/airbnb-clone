@@ -1,0 +1,331 @@
+/* ─── Header shell ─────────────────────────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── Top row: logo | tabs | auth ──────────────────────────────────────────── */
+.header-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding-top: 14px;
+  padding-bottom: 4px;
+  gap: 16px;
+}
+
+/* ── Logo ── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--pink);
+  font-size: 22px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* ── Category tabs ── */
+.header-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px 10px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--dark);
+}
+
+.tab-btn--active {
+  color: var(--dark);
+  font-weight: 700;
+  border-bottom-color: var(--dark);
+}
+
+.tab-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Auth area ── */
+.header-auth {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px 6px 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.profile-btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 30;
+}
+
+.dropdown a,
+.dropdown button {
+  padding: 12px 16px;
+  text-align: left;
+  background: #fff;
+  border: none;
+  font-size: 14px;
+  color: var(--dark);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background: var(--light-gray);
+}
+
+/* ─── Search bar row ────────────────────────────────────────────────────────── */
+.header-search-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 24px 14px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  max-width: 760px;
+  width: 100%;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 18px;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-field--where {
+  flex: 1.4;
+}
+
+.search-field--who {
+  flex: 1.1;
+}
+
+.search-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.search-sublabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gray);
+  letter-spacing: 0.03em;
+  margin-top: 1px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--dark);
+  background: transparent;
+  width: 100%;
+  margin-top: 2px;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: var(--gray);
+}
+
+.search-select {
+  cursor: pointer;
+  -webkit-appearance: auto;
+}
+
+.search-divider {
+  width: 1px;
+  background: var(--border);
+  align-self: stretch;
+  margin: 8px 0;
+}
+
+/* Pink search button */
+.search-btn {
+  background: var(--pink);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 6px 6px 6px 4px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.search-btn:hover {
+  background: #e0314f;
+}
+
+.search-btn:active {
+  transform: scale(0.95);
+}
+
+.search-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Filter / sliders icon */
+.filter-btn {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+.filter-btn:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.filter-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .header-top {
+    grid-template-columns: auto auto auto;
+  }
+
+  .header-tabs {
+    gap: 0;
+  }
+
+  .tab-btn {
+    padding: 6px 10px 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-tabs {
+    display: none;
+  }
+
+  .header-top {
+    grid-template-columns: 1fr auto;
+  }
+
+  .search-field--where {
+    flex: 1;
+  }
+
+  .search-field:not(.search-field--where):not(.search-field--who) {
+    display: none;
+  }
+
+  .search-divider:first-of-type + .search-field {
+    display: none;
+  }
+}

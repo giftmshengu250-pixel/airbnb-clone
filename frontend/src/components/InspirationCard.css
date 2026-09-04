@@ -1,0 +1,17 @@
+.inspiration-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.inspiration-name {
+  font-weight: 600;
+  margin: 8px 0 2px;
+}
+
+.inspiration-distance {
+  color: var(--gray);
+  font-size: 13px;
+  margin: 0;
+}

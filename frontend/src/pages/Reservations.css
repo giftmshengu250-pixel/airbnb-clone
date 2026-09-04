@@ -1,0 +1,18 @@
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.reservations-table th,
+.reservations-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.reservations-table th {
+  color: var(--gray);
+  font-weight: 600;
+}

@@ -1,0 +1,196 @@
+/* ─── Hero ──────────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 480px;
+  /* Real Unsplash aerial/landscape shot matching Airbnb's look */
+  background: url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85&auto=format&fit=crop")
+    center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.48) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  max-width: 620px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.hero-content h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin: 0 0 28px;
+  opacity: 0.92;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-btn {
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* ─── Experience cards ──────────────────────────────────────────────────────── */
+.experience-card {
+  height: 280px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Gradient overlay so text stays readable over any photo */
+.experience-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.05) 55%
+  );
+  border-radius: 16px;
+}
+
+.experience-content {
+  position: relative; /* sits above overlay */
+  padding: 20px 20px 24px;
+  color: #fff;
+}
+
+.experience-content h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.experience-content .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* ─── Shop section ──────────────────────────────────────────────────────────── */
+.shop-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: var(--light-gray);
+  border-radius: 16px;
+  padding: 48px 40px;
+}
+
+.shop-text h2 {
+  margin-top: 0;
+  font-size: 28px;
+}
+
+.shop-text p {
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+
+.shop-image {
+  border-radius: 16px;
+  max-width: 42%;
+  object-fit: cover;
+  height: 240px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Getaways tabs ─────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+/* Home.css tab button — distinct from Header tab buttons to avoid conflict */
+.tabs .tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 4px;
+  font-size: 15px;
+  color: var(--gray);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tabs .tab-btn.active {
+  color: var(--dark);
+  border-bottom-color: var(--dark);
+  font-weight: 600;
+}
+
+.tab-content-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.tab-content-list li {
+  padding: 12px 16px;
+  background: var(--light-gray);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .hero {
+    height: 360px;
+  }
+
+  .hero-content h1 {
+    font-size: 28px;
+  }
+
+  .shop-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 24px;
+  }
+
+  .shop-image {
+    max-width: 100%;
+    width: 100%;
+    height: 180px;
+  }
+
+  .tab-content-list {
+    grid-template-columns: 1fr;
+  }
+}

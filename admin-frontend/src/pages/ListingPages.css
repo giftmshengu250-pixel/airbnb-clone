@@ -1,0 +1,41 @@
+.listings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.listings-table-wrapper {
+  overflow-x: auto;
+}
+
+.listings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.listings-table th,
+.listings-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.listings-table th {
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.listing-thumb {
+  width: 70px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.listing-actions {
+  display: flex;
+  gap: 8px;
+}

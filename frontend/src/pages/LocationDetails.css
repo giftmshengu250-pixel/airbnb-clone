@@ -1,0 +1,136 @@
+.details-heading {
+  margin-bottom: 4px;
+}
+
+.details-subheading {
+  color: var(--gray);
+  margin-top: 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 8px;
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.gallery-main {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 196px;
+  object-fit: cover;
+}
+
+.details-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.details-left section {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.amenities-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.cost-calculator {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+}
+
+.cost-price {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+.date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.date-row label,
+.guests-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: var(--gray);
+  gap: 4px;
+}
+
+.date-row input,
+.guests-label input {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.guests-label {
+  margin-bottom: 14px;
+}
+
+.cost-breakdown {
+  margin: 14px 0;
+}
+
+.cost-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--gray);
+}
+
+.cost-total {
+  font-weight: 700;
+  color: var(--dark);
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.cost-reserve-btn {
+  width: 100%;
+}
+
+.reserve-message {
+  font-size: 13px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .details-columns {
+    grid-template-columns: 1fr;
+  }
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,59 @@
+.editor-page { max-width: 820px; margin: 0 auto; }
+.editor-title { font-size: 26px; margin-bottom: 28px; }
+
+.editor-form {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.editor-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.editor-field--full { grid-column: 1 / -1; }
+
+.editor-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray);
+}
+
+.editor-field input,
+.editor-field select,
+.editor-field textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--dark);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.editor-field input:focus,
+.editor-field select:focus,
+.editor-field textarea:focus {
+  border-color: var(--pink);
+}
+
+.editor-field textarea { resize: vertical; }
+
+.editor-error   { color: #e53e3e; font-size: 14px; }
+.editor-success { color: #38a169; font-size: 14px; }
+
+.editor-actions { display: flex; gap: 12px; }

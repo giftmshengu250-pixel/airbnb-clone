@@ -1,0 +1,150 @@
+/* ─── Login page ────────────────────────────────────────────────────────────── */
+.login-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 64px 24px 40px;
+}
+
+/* ── Card ── */
+.login-card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Title ── */
+.login-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+/* ── Field wrapper ── */
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+/* ── Label ── */
+.login-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a6fa5; /* blue-ish label colour matching mockup */
+}
+
+/* ── Input ── */
+.login-input {
+  width: 100%;
+  padding: 13px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #1a1a1a;
+  background: #eef2fb; /* light blue-gray from mockup */
+  border: 1px solid #d0d9ef;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.15);
+  background: #f5f8ff;
+}
+
+.login-select {
+  cursor: pointer;
+  -webkit-appearance: auto;
+}
+
+/* ── Error ── */
+.login-error {
+  font-size: 13px;
+  color: #d93025;
+  margin: -8px 0 12px;
+}
+
+/* ── Submit button ── */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #4a6fa5; /* blue from mockup */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: #3a5d91;
+}
+
+.login-btn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.login-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ── Demo credentials box ── */
+.login-demo {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.login-demo strong {
+  color: #1a1a1a;
+}
+
+/* ── Switch mode ── */
+.login-switch {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.login-switch-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pink);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login-switch-btn:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ── */
+@media (max-width: 520px) {
+  .login-page {
+    padding: 40px 16px 32px;
+    align-items: flex-start;
+  }
+}

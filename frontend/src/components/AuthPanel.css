@@ -1,0 +1,10 @@
+.auth-panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:60}
+.auth-panel{background:#fff;padding:20px;border-radius:8px;width:360px;box-shadow:0 6px 24px rgba(0,0,0,0.15);position:relative}
+.auth-panel .close{position:absolute;right:8px;top:8px;border:none;background:transparent;font-size:18px;cursor:pointer}
+.auth-panel h2{margin:0 0 12px}
+.auth-panel label{display:block;margin-bottom:8px}
+.auth-panel input,.auth-panel select{width:100%;padding:8px;margin-top:4px;border:1px solid #ddd;border-radius:4px}
+.auth-panel .actions{display:flex;gap:8px;margin-top:12px}
+.auth-panel .demo-creds{margin-top:12px;font-size:13px}
+.auth-panel .error-text{color:#b00020}
+.btn-link{background:none;border:none;color:#0077cc;cursor:pointer;padding:8px}

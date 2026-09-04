@@ -1,0 +1,42 @@
+/* ── Filter bar ────────────────────────────────────────────────────────────── */
+.location-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+
+.location-filter input {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.location-filter input:focus {
+  border-color: var(--dark);
+}
+
+/* ── Listings grid ─────────────────────────────────────────────────────────── */
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 8px;
+}
+
+@media (max-width: 1100px) {
+  .location-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 780px) {
+  .location-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .location-grid { grid-template-columns: 1fr; }
+}
