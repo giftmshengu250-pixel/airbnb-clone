@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./config/db");
+const { seedDemoUsers } = require("./controllers/userController");
 
 const { notFound, errorHandler } = require("./middleware/errorHandler");
 
@@ -16,7 +17,12 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const taplineRoutes = require("./routes/taplineRoutes");
 
 // Connect to MongoDB
-connectDB();
+// Connect to MongoDB and seed demo accounts
+connectDB().then(async (connected) => {
+  if (connected) {
+    await seedDemoUsers();
+  }
+});
 
 const app = express();
 

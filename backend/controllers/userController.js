@@ -121,6 +121,19 @@ const getMe = async (req, res) => {
   res.json(req.user);
 };
 
+const seedDemoUsers = async () => {
+  if (!mongoReady || !User) return;
+
+  for (const u of DEMO_ACCOUNTS) {
+    const exists = await User.findOne({ email: u.email });
+
+    if (!exists) {
+      await User.create(u);
+      console.log(`Demo user created: ${u.email}`);
+    }
+  }
+};
+
 // ─── Seed visible demo accounts (dev only) ───────────────────────────────────
 const seedVisibleUsers = async (req, res) => {
   if (process.env.NODE_ENV === "production")
@@ -150,4 +163,10 @@ const seedVisibleUsers = async (req, res) => {
   res.json({ message: "Using in-memory users (MongoDB offline)", accounts });
 };
 
-module.exports = { registerUser, loginUser, getMe, seedVisibleUsers };
+module.exports = {
+  registerUser,
+  loginUser,
+  getMe,
+  seedVisibleUsers,
+  seedDemoUsers,
+};
