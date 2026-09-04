@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Reads the backend URL from the .env file so the frontend and backend
 // stay linked without hard-coding anything.
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://airbnb-clone-w2af.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
