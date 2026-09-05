@@ -3,6 +3,10 @@ import { useState } from "react";
 import { CloseIcon } from "./Icons";
 import "./CheckoutModal.css";
 
+function isRealMongoObjectId(value) {
+  return typeof value === "string" && /^[a-fA-F0-9]{24}$/.test(value.trim());
+}
+
 export default function CheckoutModal({ open, onClose, booking, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
@@ -11,36 +15,29 @@ export default function CheckoutModal({ open, onClose, booking, onSuccess }) {
 
   const handleReserve = async () => {
     setError("");
+
+    if (!isRealMongoObjectId(booking?.accommodationId)) {
+      setError("This listing is currently unavailable for booking.");
+      return;
+    }
+
     setLoading(true);
+
     try {
       await api.post("/reservations", {
         accommodationId: booking.accommodationId,
-        checkIn:   booking.checkIn,
-        checkOut:  booking.checkOut,
-        guests:    booking.guests,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        guests: booking.guests,
         totalCost: booking.total ?? 0,
       });
+
       setLoading(false);
       onSuccess?.();
       onClose();
     } catch (err) {
-      // If backend/MongoDB is offline, store reservation locally so the
-      // guest still gets confirmation feedback.
-      const stored = JSON.parse(localStorage.getItem("local_reservations") || "[]");
-      stored.push({
-        id: `local-${Date.now()}`,
-        accommodationId: booking.accommodationId,
-        accommodationTitle: booking.accommodationTitle || "Listing",
-        checkIn:   booking.checkIn,
-        checkOut:  booking.checkOut,
-        guests:    booking.guests,
-        totalCost: booking.total ?? 0,
-        createdAt: new Date().toISOString(),
-      });
-      localStorage.setItem("local_reservations", JSON.stringify(stored));
       setLoading(false);
-      onSuccess?.();
-      onClose();
+      setError(err?.response?.data?.message || "Reservation could not be created. Please try again.");
     }
   };
 
