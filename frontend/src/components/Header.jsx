@@ -1,26 +1,49 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import api from "../api/axios";
 import "./Header.css";
 import AuthPanel from "./AuthPanel";
+import { SunIcon, MoonIcon, SearchIcon, FilterIcon, MapIcon, ListIcon } from "./Icons";
 
-const TABS = ["All", "Homes", "Experiences", "Services"];
+const guestTabs = [
+  { label: "All", href: "/" },
+  { label: "Stays", href: "/locations" },
+  { label: "Saved", href: "/saved" },
+  { label: "Map", href: "/locations" },
+];
+
+const hostTabs = [
+  { label: "Dashboard", href: "/host" },
+  { label: "Listings", href: "/host" },
+  { label: "Reservations", href: "/host" },
+  { label: "Create", href: "/host/new" },
+];
+
+const adminTabs = [
+  { label: "Overview", href: "/admin" },
+  { label: "Users", href: "/admin" },
+  { label: "Listings", href: "/admin" },
+  { label: "Reservations", href: "/admin" },
+];
 
 export default function Header() {
   const { user, logout } = useAuth();
-  const [authOpen, setAuthOpen]   = useState(false);
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [activeTab, setActiveTab] = useState("All");
-  const [location, setLocation]   = useState("");
-  const [checkIn, setCheckIn]     = useState("");
-  const [checkOut, setCheckOut]   = useState("");
-  const [guests, setGuests]       = useState(2);
-  const [cities, setCities]       = useState({});
+  const { dark, toggle: toggleTheme } = useTheme();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [location, setLocation] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState(2);
+  const [cities, setCities] = useState({});
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
+  const role = user?.role || "user";
+  const roleTabs = role === "host" ? hostTabs : role === "admin" ? adminTabs : guestTabs;
+
   useEffect(() => {
     const handler = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -41,9 +64,9 @@ export default function Header() {
     e.preventDefault();
     const params = new URLSearchParams();
     if (location) params.set("location", location);
-    if (checkIn)  params.set("checkIn", checkIn);
+    if (checkIn) params.set("checkIn", checkIn);
     if (checkOut) params.set("checkOut", checkOut);
-    if (guests)   params.set("guests", String(guests));
+    if (guests) params.set("guests", String(guests));
     navigate(`/locations?${params.toString()}`);
   };
 
@@ -58,9 +81,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header-top container">
-        {/* ── Logo ── */}
-        <Link to="/" className="logo" aria-label="Airbnb home">
-          {/* Pink looped knot SVG (simplified Airbnb bélo) */}
+        <Link to={role === "admin" ? "/admin" : role === "host" ? "/host" : "/"} className="logo" aria-label="Airbnb home">
           <svg viewBox="0 0 32 32" className="logo-icon" aria-hidden="true">
             <path
               fill="var(--pink)"
@@ -70,47 +91,49 @@ export default function Header() {
           <span>airbnb</span>
         </Link>
 
-        {/* ── Category tabs ── */}
         <nav className="header-tabs" aria-label="Browse categories">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              className={`tab-btn${activeTab === tab ? " tab-btn--active" : ""}`}
-              onClick={() => setActiveTab(tab)}
-            >
+          {roleTabs.map((tab) => (
+            <Link key={tab.label} to={tab.href} className="tab-btn">
               <span className="tab-icon" aria-hidden="true">
-                {tab === "All"         && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg>
-                )}
-                {tab === "Homes"       && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-                )}
-                {tab === "Experiences" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/></svg>
-                )}
-                {tab === "Services"    && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-                )}
+                {tab.label === "All" && <ListIcon size={18} />}
+                {tab.label === "Stays" && <MapIcon size={18} />}
+                {tab.label === "Saved" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 21s-7-4.35-9.5-8.2C.9 10.3 2.34 5 7.4 5c2.08 0 3.26 1.12 4.6 2.53C13.34 6.12 14.52 5 16.6 5c5.06 0 6.5 5.3 4.9 7.8C19 16.65 12 21 12 21z"/></svg>}
+                {tab.label === "Map" && <MapIcon size={18} />}
+                {tab.label === "Dashboard" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-10h8V3h-8v8z"/></svg>}
+                {tab.label === "Listings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-11z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
+                {tab.label === "Reservations" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>}
+                {tab.label === "Create" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>}
+                {tab.label === "Overview" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 12h7V4H4v8zm9 8h7v-8h-7v8zM4 20h7v-6H4v6zm9-10h7V4h-7v6z"/></svg>}
+                {tab.label === "Users" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="7" r="3.5"/><path d="M20 19v-1a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}
               </span>
-              {tab}
-            </button>
+              {tab.label}
+            </Link>
           ))}
         </nav>
 
-        {/* ── Profile / auth ── */}
         <div className="header-auth">
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+            title={dark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {dark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
+          </button>
           {user ? (
             <div className="profile-menu" ref={menuRef}>
               <button className="profile-btn" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen}>
-                <span className="profile-avatar" aria-hidden="true">
-                  {user.username?.[0]?.toUpperCase() ?? "U"}
-                </span>
+                <span className="profile-avatar" aria-hidden="true">{user.username?.[0]?.toUpperCase() ?? "U"}</span>
                 {user.username}
               </button>
               {menuOpen && (
                 <div className="dropdown" role="menu">
+                  {role === "host" && <Link to="/host" onClick={() => setMenuOpen(false)}>Host dashboard</Link>}
+                  {role === "admin" && <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin dashboard</Link>}
                   <Link to="/reservations" role="menuitem" onClick={() => setMenuOpen(false)}>My reservations</Link>
-                  <button role="menuitem" onClick={handleLogout}>Log out</button>
+                  <Link to="/saved" role="menuitem" onClick={() => setMenuOpen(false)}>Saved homes</Link>
+                  <button type="button" role="menuitem" onClick={handleLogout}>Log out</button>
                 </div>
               )}
             </div>
@@ -121,10 +144,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ── Search bar ── */}
       <div className="header-search-wrap">
         <form className="search-bar" onSubmit={handleSearch} role="search" aria-label="Search accommodations">
-          {/* Where */}
           <div className="search-field search-field--where">
             <span className="search-label">Where</span>
             <input
@@ -142,70 +163,38 @@ export default function Header() {
 
           <div className="search-divider" aria-hidden="true" />
 
-          {/* Check-in */}
           <div className="search-field">
             <span className="search-label">When</span>
             <span className="search-sublabel">CHECK-IN</span>
-            <input
-              type="date"
-              className="search-input"
-              value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
-              aria-label="Check-in date"
-            />
+            <input type="date" className="search-input" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} aria-label="Check-in date" />
           </div>
 
           <div className="search-divider" aria-hidden="true" />
 
-          {/* Check-out */}
           <div className="search-field">
             <span className="search-label">&nbsp;</span>
             <span className="search-sublabel">CHECK-OUT</span>
-            <input
-              type="date"
-              className="search-input"
-              value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
-              aria-label="Check-out date"
-            />
+            <input type="date" className="search-input" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} aria-label="Check-out date" />
           </div>
 
           <div className="search-divider" aria-hidden="true" />
 
-          {/* Who */}
           <div className="search-field search-field--who">
             <span className="search-label">Who</span>
-            <select
-              className="search-input search-select"
-              value={guests}
-              onChange={(e) => setGuests(Number(e.target.value))}
-              aria-label="Number of guests"
-            >
+            <select className="search-input search-select" value={guests} onChange={(e) => setGuests(Number(e.target.value))} aria-label="Number of guests">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                 <option key={n} value={n}>{n} guest{n > 1 ? "s" : ""}</option>
               ))}
             </select>
           </div>
 
-          {/* Search button */}
           <button type="submit" className="search-btn" aria-label="Search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" aria-hidden="true">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
-            </svg>
+            <SearchIcon size={18} stroke="#fff" strokeWidth={2.5} />
           </button>
         </form>
 
-        {/* Filter icon */}
-        <button className="filter-btn" aria-label="Filters">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <line x1="4" y1="6" x2="20" y2="6" />
-            <line x1="4" y1="12" x2="20" y2="12" />
-            <line x1="4" y1="18" x2="20" y2="18" />
-            <circle cx="8"  cy="6"  r="2" fill="#fff" />
-            <circle cx="16" cy="12" r="2" fill="#fff" />
-            <circle cx="8"  cy="18" r="2" fill="#fff" />
-          </svg>
+        <button className="filter-btn" aria-label="Filters" type="button">
+          <FilterIcon size={18} strokeWidth={1.8} />
         </button>
       </div>
     </header>

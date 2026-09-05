@@ -1,5 +1,6 @@
 import api from "../api/axios";
 import { useState } from "react";
+import { CloseIcon } from "./Icons";
 import "./CheckoutModal.css";
 
 export default function CheckoutModal({ open, onClose, booking, onSuccess }) {
@@ -48,7 +49,9 @@ export default function CheckoutModal({ open, onClose, booking, onSuccess }) {
   return (
     <div className="checkout-backdrop" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
       <div className="checkout-panel">
-        <button className="close" onClick={onClose} aria-label="Close">✕</button>
+        <button className="close" onClick={onClose} aria-label="Close">
+          <CloseIcon size={16} />
+        </button>
 
         <h3 id="checkout-title">Confirm your reservation</h3>
 

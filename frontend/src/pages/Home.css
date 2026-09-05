@@ -1,155 +1,235 @@
-/* ─── Hero ──────────────────────────────────────────────────────────────────── */
+.home-page {
+  background: var(--bg);
+}
+
 .hero {
   position: relative;
-  height: 480px;
-  /* Real Unsplash aerial/landscape shot matching Airbnb's look */
-  background: url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85&auto=format&fit=crop")
-    center / cover no-repeat;
+  min-height: 540px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1800&q=80&auto=format&fit=crop") center/cover no-repeat;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.18) 0%,
-    rgba(0, 0, 0, 0.48) 100%
-  );
+  background: linear-gradient(120deg, rgba(12, 14, 18, 0.7), rgba(12, 14, 18, 0.22));
+}
+
+.hero-content-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
 }
 
 .hero-content {
-  position: relative;
   max-width: 620px;
-  text-align: center;
-  padding: 0 24px;
+  padding: 64px 0;
+  color: white;
+}
+
+.hero-badge {
+  display: inline-flex;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 .hero-content h1 {
-  font-size: 42px;
-  font-weight: 700;
-  margin: 0 0 14px;
-  line-height: 1.2;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  margin: 18px 0 16px;
+  font-size: clamp(2.8rem, 4vw, 4.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.06em;
 }
 
 .hero-content p {
-  font-size: 18px;
-  margin: 0 0 28px;
-  opacity: 0.92;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  margin: 0 0 24px;
+  max-width: 520px;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.hero-btn {
-  padding: 14px 32px;
-  font-size: 16px;
-  border-radius: 8px;
-  display: inline-block;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-/* ─── Experience cards ──────────────────────────────────────────────────────── */
-.experience-card {
-  height: 280px;
+.ghost-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  color: white;
+}
+
+.categories-bar {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.categories-bar::-webkit-scrollbar { display: none; }
+
+.category-pill {
+  flex: 0 0 auto;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 92px;
+  padding: 14px 10px 12px;
+  border: 1px solid transparent;
   border-radius: 16px;
+  background: transparent;
+  color: var(--gray);
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.category-pill.active {
+  border-color: var(--border);
+  background: var(--light-gray);
+  color: var(--dark);
+}
+
+.category-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.inline-link {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 22px;
+}
+
+.feature-card {
+  position: relative;
+  min-height: 310px;
+  border-radius: 26px;
+  overflow: hidden;
   background-size: cover;
   background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 18px 35px var(--shadow);
 }
 
-/* Gradient overlay so text stays readable over any photo */
-.experience-overlay {
+.feature-card--large {
+  min-height: 380px;
+}
+
+.feature-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(0, 0, 0, 0.05) 55%
-  );
-  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.62));
 }
 
-.experience-content {
-  position: relative; /* sits above overlay */
-  padding: 20px 20px 24px;
-  color: #fff;
+.feature-content {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 22px 24px 26px;
+  color: white;
+  z-index: 1;
 }
 
-.experience-content h3 {
-  margin: 0 0 12px;
-  font-size: 20px;
-  font-weight: 700;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
-
-.experience-content .btn {
+.feature-content span {
   display: inline-block;
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 8px;
-  text-decoration: none;
+  margin-bottom: 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
-/* ─── Shop section ──────────────────────────────────────────────────────────── */
-.shop-section {
-  display: flex;
+.feature-content h3 {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  line-height: 1.1;
+}
+
+.promo-banner {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
   align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  background: var(--light-gray);
-  border-radius: 16px;
-  padding: 48px 40px;
+  background: linear-gradient(135deg, var(--pink-soft), var(--light-gray));
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 28px;
 }
 
-.shop-text h2 {
-  margin-top: 0;
-  font-size: 28px;
+.pill {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 56, 92, 0.08);
+  color: var(--pink);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.shop-text p {
+.promo-copy h2 {
+  margin: 16px 0 8px;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.promo-copy p {
+  margin: 0 0 22px;
   color: var(--gray);
-  margin-bottom: 20px;
+  max-width: 560px;
 }
 
-.shop-image {
-  border-radius: 16px;
-  max-width: 42%;
+.promo-image {
+  width: 100%;
+  height: 280px;
   object-fit: cover;
-  height: 240px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 22px;
 }
 
-/* ─── Getaways tabs ─────────────────────────────────────────────────────────── */
 .tabs {
   display: flex;
   gap: 8px;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
+  overflow-x: auto;
 }
 
-/* Home.css tab button — distinct from Header tab buttons to avoid conflict */
 .tabs .tab-btn {
   background: none;
   border: none;
-  padding: 10px 4px;
+  border-bottom: 2px solid transparent;
+  padding: 10px 8px 12px;
   font-size: 15px;
   color: var(--gray);
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  font-weight: 600;
 }
 
 .tabs .tab-btn.active {
   color: var(--dark);
   border-bottom-color: var(--dark);
-  font-weight: 600;
 }
 
 .tab-content-list {
@@ -157,40 +237,26 @@
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .tab-content-list li {
-  padding: 12px 16px;
+  padding: 15px 16px;
+  border-radius: 12px;
   background: var(--light-gray);
-  border-radius: 8px;
-  font-size: 14px;
+  color: var(--dark);
+  font-weight: 500;
 }
 
-/* ─── Responsive ────────────────────────────────────────────────────────────── */
-@media (max-width: 700px) {
-  .hero {
-    height: 360px;
-  }
+@media (max-width: 820px) {
+  .feature-grid, .promo-banner { grid-template-columns: 1fr; }
+}
 
-  .hero-content h1 {
-    font-size: 28px;
-  }
-
-  .shop-section {
-    flex-direction: column;
-    text-align: center;
-    padding: 32px 24px;
-  }
-
-  .shop-image {
-    max-width: 100%;
-    width: 100%;
-    height: 180px;
-  }
-
-  .tab-content-list {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 600px) {
+  .hero { min-height: 440px; }
+  .hero-content { padding: 42px 0; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .feature-card, .feature-card--large { min-height: 260px; }
+  .tab-content-list { grid-template-columns: 1fr; }
 }

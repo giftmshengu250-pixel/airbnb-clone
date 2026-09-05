@@ -1,19 +1,25 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
 export default function Login() {
   const { login, register } = useAuth();
   const navigate = useNavigate();
-  const [mode, setMode] = useState("login"); // "login" | "register"
+  const [mode, setMode] = useState("login");
 
   const [username, setUsername] = useState("");
-  const [email, setEmail]       = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole]         = useState("user");
-  const [error, setError]       = useState("");
-  const [loading, setLoading]   = useState(false);
+  const [role, setRole] = useState("user");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const getRoleDestination = (nextRole) => {
+    if (nextRole === "admin") return "/admin";
+    if (nextRole === "host") return "/host";
+    return "/";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,12 +32,14 @@ export default function Login() {
 
     setLoading(true);
     try {
+      let user;
       if (mode === "login") {
-        await login(email, password);
+        user = await login(email, password);
       } else {
-        await register(username, email, password, role);
+        user = await register(username, email, password, role);
       }
-      navigate("/");
+
+      navigate(getRoleDestination(user?.role || role));
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
@@ -42,9 +50,10 @@ export default function Login() {
   return (
     <main className="login-page">
       <div className="login-card">
-        <h1 className="login-title">
-          {mode === "login" ? "Welcome back" : "Create an account"}
-        </h1>
+        <div className="login-brand">
+          <span className="login-badge">A place to stay</span>
+          <h1 className="login-title">{mode === "login" ? "Welcome back" : "Create your account"}</h1>
+        </div>
 
         <form onSubmit={handleSubmit} noValidate>
           {mode === "register" && (
@@ -103,11 +112,10 @@ export default function Login() {
           {error && <p className="login-error" role="alert">{error}</p>}
 
           <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? "Please wait…" : mode === "login" ? "Log in" : "Sign up"}
+            {loading ? "Please wait…" : mode === "login" ? "Log in" : "Create account"}
           </button>
         </form>
 
-        {/* Demo credentials box */}
         <div className="login-demo">
           Demo accounts:&nbsp;
           <strong>guest@example.com</strong> / password123 (guest)&nbsp;·&nbsp;
@@ -115,11 +123,10 @@ export default function Login() {
           <strong>admin@example.com</strong> / adminpass123 (admin)
         </div>
 
-        {/* Switch mode */}
         <p className="login-switch">
           {mode === "login" ? (
             <>
-              Don't have an account?{" "}
+              Don’t have an account?{" "}
               <button type="button" className="login-switch-btn" onClick={() => { setMode("register"); setError(""); }}>
                 Sign up for free
               </button>

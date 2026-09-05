@@ -9,12 +9,13 @@
 }
 
 .checkout-panel {
-  background: var(--bg, #fff);
+  background: var(--card-bg);
   color: var(--dark);
+  border: 1px solid var(--border);
   padding: 28px 28px 24px;
   border-radius: 16px;
   width: min(420px, 92vw);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+  box-shadow: 0 12px 40px var(--shadow);
   position: relative;
 }
 
@@ -24,9 +25,19 @@
   top: 12px;
   border: none;
   background: transparent;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   color: var(--gray);
+  padding: 6px;
+  border-radius: 50%;
+  transition: color 0.15s, background 0.15s;
+}
+
+.checkout-panel .close:hover {
+  color: var(--dark);
+  background: var(--light-gray);
 }
 
 .checkout-panel h3 {

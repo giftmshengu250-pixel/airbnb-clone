@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { CloseIcon } from "./Icons";
 import "./AuthPanel.css";
 
 export default function AuthPanel({ onClose }) {
@@ -14,18 +15,28 @@ export default function AuthPanel({ onClose }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const getRoleDestination = (nextRole) => {
+    if (nextRole === "admin") return "/admin";
+    if (nextRole === "host") return "/host";
+    return "/";
+  };
+
   const submit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      if (mode === "login") await login(email, password);
-      else await register(username, email, password, role);
-      setLoading(false);
+      let user;
+      if (mode === "login") {
+        user = await login(email, password);
+      } else {
+        user = await register(username, email, password, role);
+      }
       onClose?.();
-      navigate("/");
+      navigate(getRoleDestination(user?.role || role));
     } catch (err) {
       setError(err.response?.data?.message || "Authentication failed");
+    } finally {
       setLoading(false);
     }
   };
@@ -33,7 +44,9 @@ export default function AuthPanel({ onClose }) {
   return (
     <div className="auth-panel-backdrop">
       <div className="auth-panel">
-        <button className="close" onClick={onClose} aria-label="Close">✕</button>
+        <button className="close" onClick={onClose} aria-label="Close">
+          <CloseIcon size={16} />
+        </button>
         <h2>{mode === "login" ? "Log in" : "Create account"}</h2>
         <form onSubmit={submit}>
           {mode === "register" && (
