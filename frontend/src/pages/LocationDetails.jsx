@@ -15,6 +15,10 @@ function nightsBetween(checkIn, checkOut) {
 
 const STORAGE_KEY = "airbnb_saved_listings";
 
+function isRealMongoObjectId(value) {
+  return typeof value === "string" && /^[a-fA-F0-9]{24}$/.test(value.trim());
+}
+
 function readSavedListings() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -127,12 +131,17 @@ export default function LocationDetails() {
       setReserveMessage("Please choose valid check-in and check-out dates.");
       return;
     }
+    if (!isRealMongoObjectId(accommodation?._id)) {
+      setCheckoutOpen(false);
+      setReserveMessage("This listing is currently unavailable for booking.");
+      return;
+    }
 
     setCheckoutOpen(true);
   };
 
   const handleCheckoutSuccess = () => {
-    setReserveMessage("Reservation created! Check 'My reservations' to view it.");
+    setReserveMessage("Reservation confirmed! You can view it under My Reservations.");
   };
 
   return (
