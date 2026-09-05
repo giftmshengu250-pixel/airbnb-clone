@@ -5,27 +5,6 @@ import { getMockListings } from "../api/mockListings";
 import LocationCard from "../components/LocationCard";
 import "./LocationsPage.css";
 
-const extractListings = (raw) => {
-  if (Array.isArray(raw)) return raw;
-  if (Array.isArray(raw?.data)) return raw.data;
-  if (Array.isArray(raw?.listings)) return raw.listings;
-  if (Array.isArray(raw?.results)) return raw.results;
-  if (Array.isArray(raw?.items)) return raw.items;
-  return [];
-};
-
-const normalizeTapline = (t, fallbackLocation) => ({
-  _id: t.id || t._id || `tap-${Math.random().toString(36).slice(2, 8)}`,
-  title: t.title || t.name || "Untitled listing",
-  location: t.location || t.city || fallbackLocation,
-  type: t.type || t.roomType || t.property_type || "Private room",
-  amenities: t.amenities || t.facilities || [],
-  rating: typeof t.rating === "number" ? t.rating : (t.starRating || 4.5),
-  reviews: t.reviews || t.reviewCount || t.review_count || 0,
-  price: t.price || t.pricePerNight || t.nightly_price || 0,
-  images: t.images || t.photos || t.media || t.gallery || t.pictures || (t.image ? [t.image] : null) || (t.picture ? [t.picture] : null) || (t.thumbnail ? [t.thumbnail] : null) || [],
-});
-
 const mapDetails = {
   "Cape Town": { label: "Cape Town coast", pins: ["Clifton", "V&A", "Table Mountain"] },
   "Johannesburg": { label: "Johannesburg city core", pins: ["Sandton", "Melville", "Rosebank"] },
@@ -34,9 +13,24 @@ const mapDetails = {
   "Tokyo": { label: "Tokyo nightlife & culture", pins: ["Shibuya", "Asakusa", "Shinjuku"] },
 };
 
+const mergeListings = (realListings, mockListings) => {
+  const merged = [...realListings, ...mockListings];
+  const unique = new Map();
+
+  merged.forEach((item) => {
+    if (!item) return;
+    const key = item._id || item.id || item.title || JSON.stringify(item);
+    if (!unique.has(String(key))) {
+      unique.set(String(key), item);
+    }
+  });
+
+  return [...unique.values()];
+};
+
 export default function LocationsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeLocation = searchParams.get("location") || "Cape Town";
+  const activeLocation = searchParams.get("location") || "All";
 
   const [locationInput, setLocationInput] = useState(activeLocation);
   const [accommodations, setAccommodations] = useState([]);
@@ -53,27 +47,24 @@ export default function LocationsPage() {
       setLoading(true);
 
       try {
-        const { data: raw } = await api.get("/tapline/listings", { params: { location: activeLocation } });
-        const list = extractListings(raw);
-        if (list.length > 0 && !cancelled) {
-          setAccommodations(list.map((t) => normalizeTapline(t, activeLocation)));
-          setLoading(false);
-          return;
-        }
-      } catch (_) {}
+        const hasLocationFilter = activeLocation && activeLocation.toLowerCase() !== "all";
+        const requestConfig = hasLocationFilter ? { params: { location: activeLocation } } : {};
 
-      try {
-        const { data } = await api.get("/accommodations", { params: { location: activeLocation } });
-        const list = Array.isArray(data) ? data : [];
-        if (list.length > 0 && !cancelled) {
-          setAccommodations(list);
+        const { data } = await api.get("/accommodations", requestConfig);
+        const realListings = Array.isArray(data) ? data : [];
+        const fallbackLocation = activeLocation && activeLocation.toLowerCase() === "all" ? "" : activeLocation;
+        const mockListings = getMockListings(fallbackLocation);
+
+        if (!cancelled) {
+          setAccommodations(mergeListings(realListings, mockListings));
           setLoading(false);
-          return;
         }
+        return;
       } catch (_) {}
 
       if (!cancelled) {
-        setAccommodations(getMockListings(activeLocation));
+        const fallbackLocation = activeLocation && activeLocation.toLowerCase() === "all" ? "" : activeLocation;
+        setAccommodations(getMockListings(fallbackLocation));
         setLoading(false);
       }
     };
