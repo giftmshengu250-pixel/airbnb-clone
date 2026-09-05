@@ -11,6 +11,19 @@ export default function Reservations() {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+
+  const fetchReservations = async () => {
+    try {
+      const { data } = await api.get("/reservations/user");
+      setReservations(data);
+      setError("");
+    } catch (err) {
+      setError("Could not load your reservations.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!user) {
@@ -18,26 +31,19 @@ export default function Reservations() {
       return;
     }
 
-    const fetchReservations = async () => {
-      try {
-        const { data } = await api.get("/reservations/user");
-        setReservations(data);
-      } catch (err) {
-        setError("Could not load your reservations.");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchReservations();
   }, [user, navigate]);
 
   const handleCancel = async (id) => {
     if (!confirm("Cancel this reservation?")) return;
+
     try {
       await api.delete(`/reservations/${id}`);
-      setReservations((prev) => prev.filter((r) => r._id !== id));
+      await fetchReservations();
+      setNotice("Reservation cancelled successfully.");
     } catch (err) {
-      alert("Could not cancel reservation.");
+      setNotice("");
+      setError("Could not cancel reservation. Please try again.");
     }
   };
 
@@ -47,6 +53,7 @@ export default function Reservations() {
     <main className="container section">
       <h1 className="section-title">My reservations</h1>
       {error && <p className="error-text">{error}</p>}
+      {notice && <p style={{ color: "#169b73", marginBottom: "16px" }}>{notice}</p>}
 
       {!error && reservations.length === 0 && <p>You have no reservations yet.</p>}
 
@@ -71,10 +78,10 @@ export default function Reservations() {
                 <td>{new Date(r.checkIn).toLocaleDateString()}</td>
                 <td>{new Date(r.checkOut).toLocaleDateString()}</td>
                 <td>{r.guests}</td>
-                <td>R{r.totalCost.toFixed(2)}</td>
+                <td>R{Number(r.totalCost || 0).toFixed(2)}</td>
                 <td>
                   <button className="btn-outline" onClick={() => handleCancel(r._id)}>
-                    Cancel
+                    Cancel Reservation
                   </button>
                 </td>
               </tr>
